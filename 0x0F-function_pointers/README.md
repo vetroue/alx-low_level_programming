@@ -1,4 +1,4 @@
- Task 0 
+Task 0 
 Write a function that prints a name.
 
 Prototype: void print_name(char *name, void (*f)(char *));
@@ -100,5 +100,3 @@ If the number of argument is not the correct one, print Error, followed by a new
 If the number of bytes is negative, print Error, followed by a new line, and exit with the status 2
 You do not have to compile with any flags
 Note: if you want to translate your opcodes to assembly instructions, you can use, for instance udcli.
-
- Task 5

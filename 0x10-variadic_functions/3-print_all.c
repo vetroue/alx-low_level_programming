@@ -1,49 +1,100 @@
 #include <stdio.h>
-#include <stdarg.h>
 #include "variadic_functions.h"
-#include <stdbool.h>
+#include <stdarg.h>
+
 /**
- * print_all - Function that prints anything
+ * op_c - Print character .
+ * @form: name va_list
  *
- * @format: This is the format to print a value
- *
+ * Return: Nothing.
  */
+
+void op_c(va_list form)
+{
+	printf("%c", va_arg(form, int));
+}
+/**
+ * op_i - Print Integer
+ * @form: name va_list
+ *
+ * Return: Nothing.
+ */
+
+void op_i(va_list form)
+{
+	printf("%i", va_arg(form, int));
+}
+/**
+ * op_f - print FLoat numbers
+ * @form: name of va_list
+ *
+ * Return: Nothing.
+ */
+
+void op_f(va_list form)
+{
+	printf("%f", va_arg(form, double));
+}
+/**
+ * op_s -print string
+ * @form: name va_list
+ *
+ * Return: Nothing.
+ */
+
+void op_s(va_list form)
+{
+	char *str;
+
+	str = va_arg(form, char *);
+	if (str == NULL)
+	{
+		printf("(nil)");
+		return;
+	}
+	printf("%s", str);
+}
+
+/**
+ * print_all - check the code for Holberton School students.
+ * @format: number of arguments in character format
+ *
+ * Return: Nothing.
+ */
+
 void print_all(const char * const format, ...)
 {
-	va_list vl;
-	char *string;
-	int i;
 
+	va_list all;
+	unsigned int i, j;
+	char *separator = "";
+
+	f ops[] = {
+		{"c", op_c},
+		{"i", op_i},
+		{"f", op_f},
+		{"s", op_s},
+		};
+
+	va_start(all, format);
 	i = 0;
-	va_start(vl, format);
-	while (format != NULL && format[i] != '\0')
+	while (format && format[i])
 	{
-		switch (format[i])
+		j = 0;
+		while (j < 4)
 		{
-			case 'i':
-				printf("%i", va_arg(vl, int));
+			if (ops[j].op[0] == format[i])
+			{
+				printf("%s", separator);
+				separator = ", ";
+				ops[j].f(all);
 				break;
-			case 'f':
-				printf("%f", va_arg(vl, double));
-				break;
-			case 'c':
-				printf("%c", (char) va_arg(vl, int));
-				break;
-			case 's':
-				string = va_arg(vl, char *);
-				if (string == NULL)
-				{
-					printf("(nil)");
-					break;
-				}
-				printf("%s", string);
-				break;
+			}
+			j++;
 		}
-		if ((format[i] == 'c' || format[i] == 'i' || format[i] == 'f' ||
-		format[i] == 's') && format[(i + 1)] != '\0')
-			printf(", ");
-		i++;
+	i++;
 	}
+
 	printf("\n");
-	va_end(vl);
+	va_end(all);
 }
